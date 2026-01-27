@@ -3,15 +3,15 @@
 	"uuid": "8a9347793422441d86126d552cd9be5d",
 	"displayName": "图片轮廓提取器",
 	"description": "适用于艺术PCB的制作，方便提取图片中的外轮廓以及内轮廓用于板框、开窗、挖槽等",
-	"version": "1.1.1",
+	"version": "1.1.3",
 	"publisher": "JLCEDA",
 	"engines": {
 		"eda": "^3.0.0"
 	},
 	"license": "Apache-2.0",
 	"repository": {
-		"type": "extension-store",
-		"url": ""
+		"type": "github",
+		"url": "https://github.com/easyeda/eext-image-contour-to-pcb"
 	},
 	"categories": "Other",
 	"keywords": [

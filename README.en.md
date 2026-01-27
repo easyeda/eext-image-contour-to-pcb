@@ -1,43 +1,28 @@
-[简体中文](./README.md) | [English](#) | [繁體中文](./README.zh-Hant.md) | [日本語](./README.ja.md) | [Русский](./README.ru.md)
+## Image Contour Extractor
 
-# pro-api-sdk
+A graphic assistant tool for creating artistic PCBs based on images. You can quickly build an artistic PCB with just one image.
 
-JLCEDA & EasyEDA Pro Extension API Development Kit
+**Contour recognition accuracy is significantly affected by the effective image resolution and local contrast.**
 
-<a href="https://github.com/easyeda/pro-api-sdk" style="vertical-align: inherit;" target="_blank"><img src="https://img.shields.io/github/stars/easyeda/pro-api-sdk" alt="GitHub Repo Stars" class="not-medium-zoom-image" style="display: inline; vertical-align: inherit;" /></a>&nbsp;<a href="https://github.com/easyeda/pro-api-sdk/issues" style="vertical-align: inherit;" target="_blank"><img src="https://img.shields.io/github/issues/easyeda/pro-api-sdk" alt="GitHub Issues" class="not-medium-zoom-image" style="display: inline; vertical-align: inherit;" /></a>&nbsp;<a href="https://github.com/easyeda/pro-api-sdk" style="vertical-align: inherit;" target="_blank"><img src="https://img.shields.io/github/repo-size/easyeda/pro-api-sdk" alt="GitHub Repo Size" class="not-medium-zoom-image" style="display: inline; vertical-align: inherit;" /></a>&nbsp;<a href="https://choosealicense.com/licenses/apache-2.0/" style="vertical-align: inherit;" target="_blank"><img src="https://img.shields.io/github/license/easyeda/pro-api-sdk" alt="GitHub License" class="not-medium-zoom-image" style="display: inline; vertical-align: inherit;" /></a>&nbsp;<a href="https://www.npmjs.com/package/@jlceda/pro-api-types" style="vertical-align: inherit;" target="_blank"><img src="https://img.shields.io/npm/v/%40jlceda%2Fpro-api-types?label=pro-api-types" alt="NPM Version" class="not-medium-zoom-image" style="display: inline; vertical-align: inherit;" /></a>&nbsp;<a href="https://www.npmjs.com/package/@jlceda/pro-api-types" style="vertical-align: inherit;" target="_blank"><img src="https://img.shields.io/npm/d18m/%40jlceda%2Fpro-api-types" alt="NPM Downloads" class="not-medium-zoom-image" style="display: inline; vertical-align: inherit;" /></a>
+## Supported Features
+### ✅ One-click contour extraction, quickly build an artistic PCB from a single image
+![alt text](images/gif4.gif)
 
-> [!NOTE]
->
-> For more information on the development of EasyEDA Pro Extension, please visit: [https://prodocs.easyeda.com/en/api/guide/](https://prodocs.easyeda.com/en/api/guide/)
+### ✅ One-click contour inversion, get two effects from one image, no need for image masking
+![alt text](images/gif5.gif)
 
-## Enter Development
+### ✅ Generate contours based on graphics, quickly create irregular board frames without DXF
+![alt text](images/gif1.gif)
 
-This development tool set contains all the environments and tools for developing the [EasyEDA Pro Edition](https://pro.easyeda.com/) extension package, and has built-in recommended rules for ESLint.
+### ✅ Generate fills based on graphics, quickly create irregular solder mask openings without binarization
+![alt text](images/gif2.gif)
 
-1. Clone the [pro-api-sdk](https://github.com/easyeda/pro-api-sdk) project repository to your local computer
+### ✅ Custom graphic sizes, make it as big as you want without adjusting in design software
+![alt text](images/gif3.gif)
 
-    ```shell
-    git clone --depth=1 https://github.com/easyeda/pro-api-sdk.git
-    ```
+## How to Use
+1. Go to "Advanced" - "Extension Manager" and import the eext-image-contour-to-pcb.eext extension file.
+![alt text](images/image1.png)
 
-2. Initializing the development environment (installing dependencies)
-
-    ```shell
-    npm install
-    ```
-
-3. Make your changes ...
-
-4. Compile the extension package
-
-    ```shell
-    npm run build
-    ```
-
-5. Install the extension package generated under `./build/dist/` in EasyEDA Pro Edition
-
-## Open-source License
-
-<a href="https://choosealicense.com/licenses/apache-2.0/" style="vertical-align: inherit;" target="_blank"><img src="https://img.shields.io/github/license/easyeda/pro-api-sdk" alt="GitHub License" class="not-medium-zoom-image" style="display: inline; vertical-align: inherit;" /></a>
-
-This development tool uses the [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/) open source license agreement. You can only use the **嘉立创EDA** and **EasyEDA** trademark information for the **function description part** and **open source release title part** of the extension package developed based on this tool.
+2. Enter the PCB interface, click "DocsTools" on the top navigation bar, and select the function you need.
+![alt text](images/image2.png)
