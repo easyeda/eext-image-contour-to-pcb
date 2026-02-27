@@ -3,6 +3,7 @@
 A graphic assistant tool for creating artistic PCBs based on images. You can quickly build an artistic PCB with just one image.
 
 **Contour recognition accuracy is significantly affected by the effective image resolution and local contrast.**
+**Supports images in PNG/JPG/JPEG/BMP/WEBP/SVG formats**
 
 ## Supported Features
 ### ✅ One-click contour extraction, quickly build an artistic PCB from a single image
@@ -24,5 +25,5 @@ A graphic assistant tool for creating artistic PCBs based on images. You can qui
 1. Go to "Advanced" - "Extension Manager" and import the eext-image-contour-to-pcb.eext extension file.
 ![alt text](images/image1.png)
 
-2. Enter the PCB interface, click "DocsTools" on the top navigation bar, and select the function you need.
+2. Enter the PCB interface, click "Advanced" on the top navigation bar - "Image Contour Extractor" and select the image you want to extract.
 ![alt text](images/image2.png)
