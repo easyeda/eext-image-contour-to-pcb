@@ -22,5 +22,7 @@ export function about(): void {
 	);
 }
 export function openImageTool(): void {
-	eda.sys_IFrame.openIFrame('/iframe/index.html', 670, 750);
+	eda.sys_IFrame.openIFrame('/iframe/index.html', 670, 750, undefined, {
+		minimizeButton: true,
+	});
 }

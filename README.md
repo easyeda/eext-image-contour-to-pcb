@@ -6,6 +6,10 @@
 **支持PNG/JPG/JPEG/BMP/WEBP/SVG格式的图片**
 
 ## 支持功能
+
+### ✅自定义提取参数，轮廓细节随心调节
+![alt text](images/gif6.gif)
+
 ### ✅一键提取轮廓，一张图快速构建艺术PCB
 ![alt text](images/gif4.gif)
 

@@ -6,6 +6,10 @@ A graphic assistant tool for creating artistic PCBs based on images. You can qui
 **Supports images in PNG/JPG/JPEG/BMP/WEBP/SVG formats**
 
 ## Supported Features
+
+### ✅ Custom extraction parameters, freely adjust contour details
+![alt text](images/gif6.gif)
+
 ### ✅ One-click contour extraction, quickly build an artistic PCB from a single image
 ![alt text](images/gif4.gif)
 
