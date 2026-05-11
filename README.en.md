@@ -1,5 +1,7 @@
 ## Image Contour Extractor
 
+[中文](./README.md)
+
 A graphic assistant tool for creating artistic PCBs based on images. You can quickly build an artistic PCB with just one image.
 
 **Contour recognition accuracy is significantly affected by the effective image resolution and local contrast.**
@@ -24,6 +26,9 @@ A graphic assistant tool for creating artistic PCBs based on images. You can qui
 
 ### ✅ Custom graphic sizes, make it as big as you want without adjusting in design software
 ![alt text](images/gif3.gif)
+
+## Panel Application
+Currently, the generated board frames can be exported as DXF and then imported into the panel for use.
 
 ## How to Use
 1. Go to "Advanced" - "Extension Manager" and import the eext-image-contour-to-pcb.eext extension file.
