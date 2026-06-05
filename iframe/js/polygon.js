@@ -78,25 +78,25 @@ const PolygonManager = {
 			return `
 				<div class="selected-item">
 					<div class="selected-item-header">
-						<span class="selected-item-info">轮廓 ${item.index + 1}${item.isMerged ? ' (已合并)' : ''}</span>
+						<span class="selected-item-info">${t('ContourNumber', item.index + 1)}${item.isMerged ? ' ' + t('Merged') : ''}</span>
 						<span class="selected-item-remove" onclick="PolygonManager.removeSelection(${idx})">×</span>
 					</div>
 					<div class="selected-item-controls">
-						<label>层:</label>
+						<label>${t('Layer')}</label>
 						<select onchange="PolygonManager.updatePolygonLayer(${idx}, this.value)">
 							${layerOptionsHtml}
 						</select>
-						<label>线宽(为0时生成填充):</label>
+						<label>${t('LineWidthFillHint')}</label>
 						<input type="number" 
 							value="${item.lineWidth || 0}" 
 							min="0" 
 							step="0.1"
 							onchange="PolygonManager.updatePolygonLineWidth(${idx}, this.value)"
-							title="0 表示填充，大于 0 表示轮廓线宽" />
+							title="${t('LineWidthHint')}" />
 						<span>${AppState.currentUnit}</span>
 					</div>
 					<div class="selected-item-size">
-						<label>宽度:</label>
+						<label>${t('Width')}</label>
 						<input type="number" 
 							value="${item.width.toFixed(3)}" 
 							min="0.001" 
@@ -105,8 +105,8 @@ const PolygonManager = {
 						<span>${AppState.currentUnit}</span>
 						<span class="lock-icon ${lockClass}" 
 							onclick="PolygonManager.toggleAspectRatioLock(${idx})"
-							title="${item.aspectRatioLocked ? '点击解锁宽高比' : '点击锁定宽高比'}">${lockIcon}</span>
-						<label>高度:</label>
+							title="${item.aspectRatioLocked ? t('ClickToUnlockAspectRatio') : t('ClickToLockAspectRatio')}">${lockIcon}</span>
+						<label>${t('Height')}</label>
 						<input type="number" 
 							value="${item.height.toFixed(3)}" 
 							min="0.001" 
@@ -209,7 +209,7 @@ const PolygonManager = {
 	 */
 	selectAll() {
 		if (!AppState.polygonData || !AppState.polygonData.complexPolygon || AppState.polygonData.complexPolygon.length === 0) {
-			eda.sys_Message.showToastMessage('没有可选择的轮廓', 'warn');
+			eda.sys_Message.showToastMessage(t('NoContoursToSelect'), 'warn');
 			return;
 		}
 
@@ -245,7 +245,7 @@ const PolygonManager = {
 		CanvasModule.redrawCanvas();
 		this.updateSelectedList();
 		
-		eda.sys_Message.showToastMessage(`已选择所有 ${AppState.selectedPolygons.length} 个轮廓`, 'success');
+		eda.sys_Message.showToastMessage(t('SelectedAllContours', AppState.selectedPolygons.length), 'success');
 	},
 
 	/**
@@ -255,7 +255,7 @@ const PolygonManager = {
 		AppState.selectedPolygons = [];
 		CanvasModule.redrawCanvas();
 		this.updateSelectedList();
-		eda.sys_Message.showToastMessage('已清除所有选择', 'info');
+		eda.sys_Message.showToastMessage(t('ClearedAllSelection'), 'info');
 	},
 
 	/**
@@ -263,7 +263,7 @@ const PolygonManager = {
 	 */
 	async mergeSelected() {
 		if (AppState.selectedPolygons.length < 2) {
-			eda.sys_Message.showToastMessage('至少需要选择 2 个轮廓才能合并', 'warn');
+			eda.sys_Message.showToastMessage(t('NeedAtLeast2Contours'), 'warn');
 			return;
 		}
 
@@ -293,9 +293,9 @@ const PolygonManager = {
 			CanvasModule.redrawCanvas();
 			this.updateSelectedList();
 
-			eda.sys_Message.showToastMessage(`成功合并 ${polygonsToMerge.length} 个轮廓`, 'success');
+			eda.sys_Message.showToastMessage(t('MergeSuccess', polygonsToMerge.length), 'success');
 		} catch (err) {
-			eda.sys_Message.showToastMessage('合并失败: ' + err, 'error');
+			eda.sys_Message.showToastMessage(t('MergeFailed', err), 'error');
 		}
 	}
 };

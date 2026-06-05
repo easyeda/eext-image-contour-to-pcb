@@ -34,7 +34,7 @@ const EventHandlers = {
 		AppState.panX = canvasMouseX - zoomPointX * AppState.zoomLevel;
 		AppState.panY = canvasMouseY - zoomPointY * AppState.zoomLevel;
 		
-		document.getElementById('zoomInfo').textContent = `缩放: ${Math.round(AppState.zoomLevel * 100)}%`;
+		document.getElementById('zoomInfo').textContent = t('ZoomLevel', Math.round(AppState.zoomLevel * 100));
 		
 		CanvasModule.redrawCanvas();
 	},

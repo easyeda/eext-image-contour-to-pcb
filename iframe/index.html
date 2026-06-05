@@ -2,7 +2,7 @@
 <html lang="zh-Hans">
 <head>
 	<meta charset="utf-8" />
-	<title>图片轮廓提取器</title>
+	<title></title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<style>
 		html, body {
@@ -441,39 +441,39 @@
 <div class="preview-box show" id="previewBox">
 	<div class="controls">
 		<div style="display: flex; gap: 12px; align-items: center; width: 100%;">
-			<button onclick="selectImage()">选择图片</button>
+			<button id="btnSelectImage" onclick="selectImage()"></button>
 			<div class="control-group">
-				<label>选择层:</label>
+				<label id="labelSelectLayer"></label>
 				<select id="layerSelect">
-					<option value="13">文档层 (DOCUMENT)</option>
-					<option value="1">顶层 (TOP)</option>
-					<option value="2">底层 (BOTTOM)</option>
-					<option value="11">板框层 (BOARD_OUTLINE)</option>
-					<option value="3">顶部丝印 (TOP_SILKSCREEN)</option>
-					<option value="4">底部丝印 (BOTTOM_SILKSCREEN)</option>
-					<option value="5">顶部阻焊 (TOP_SOLDER_MASK)</option>
-					<option value="6">底部阻焊 (BOTTOM_SOLDER_MASK)</option>
-					<option value="12">多层 (MULTI)</option>
+					<option value="13"></option>
+					<option value="1"></option>
+					<option value="2"></option>
+					<option value="11"></option>
+					<option value="3"></option>
+					<option value="4"></option>
+					<option value="5"></option>
+					<option value="6"></option>
+					<option value="12"></option>
 				</select>
 			</div>
 		</div>
 		<div style="display: flex; gap: 12px; align-items: center; width: 100%;">
 			<div class="control-group">
-				<label>单位:</label>
+				<label id="labelUnit"></label>
 				<select id="unitSelect" onchange="updateUnit()">
 					<option value="mil">mil</option>
 					<option value="mm">mm</option>
 				</select>
 			</div>
 			<div class="control-group">
-				<label>图片宽度:</label>
+				<label id="labelImageWidth"></label>
 				<input type="number" id="globalWidth" min="0.001" step="0.1" value="0" 
 					onchange="updateGlobalSize('width', this.value)" disabled />
 				<span id="widthUnit">mil</span>
 			</div>
-			<span class="lock-icon" id="globalLock" onclick="toggleGlobalLock()" title="锁定宽高比">🔒</span>
+			<span class="lock-icon" id="globalLock" onclick="toggleGlobalLock()">🔒</span>
 			<div class="control-group">
-				<label>高度:</label>
+				<label id="labelHeight"></label>
 				<input type="number" id="globalHeight" min="0.001" step="0.1" value="0" 
 					onchange="updateGlobalSize('height', this.value)" disabled />
 				<span id="heightUnit">mil</span>
@@ -483,50 +483,50 @@
 
 	<div class="canvas-container">
 		<canvas id="previewCanvas"></canvas>
-		<div class="zoom-info" id="zoomInfo">缩放: 100%</div>
+		<div class="zoom-info" id="zoomInfo"></div>
 	</div>
 
 	<div class="selected-list" id="selectedList" style="display: none;">
-		<div class="selected-list-title">已选择的轮廓 (<span id="selectedCount">0</span>)</div>
+		<div class="selected-list-title"><span id="selectedListTitle"></span> (<span id="selectedCount">0</span>)</div>
 		<div id="selectedItems"></div>
 	</div>
 
 	<div class="button-group">
-		<button onclick="selectAll()">全选轮廓</button>
-		<button onclick="clearSelection()">清除选择</button>
-		<button onclick="mergeSelected()" id="mergeButton" disabled>合并选中轮廓</button>
-		<button onclick="generateFill()">生成图元</button>
+		<button id="btnSelectAll" onclick="selectAll()"></button>
+		<button id="btnClearSelection" onclick="clearSelection()"></button>
+		<button id="btnMergeSelected" onclick="mergeSelected()" disabled></button>
+		<button id="btnGenerate" onclick="generateFill()"></button>
 	</div>
 </div>
 <!-- 参数编辑对话框 -->
 <div class="param-overlay" id="paramOverlay">
 	<div class="param-dialog">
-		<div class="param-dialog-header">轮廓提取参数设置</div>
+		<div class="param-dialog-header" id="paramDialogTitle"></div>
 		<div class="param-dialog-body">
 			<div class="param-panel">
 				<div class="param-item">
-					<label>容差 (tolerance)</label>
+					<label id="labelTolerance"></label>
 					<div class="param-row">
 						<input type="range" id="paramTolerance" min="0" max="1" step="0.01" value="0.35" oninput="ImageModule.onParamChange()" />
 						<span class="param-value" id="paramToleranceVal">0.35</span>
 					</div>
 				</div>
 				<div class="param-item">
-					<label>简化 (simplification)</label>
+					<label id="labelSimplification"></label>
 					<div class="param-row">
 						<input type="range" id="paramSimplification" min="0" max="1" step="0.01" value="0" oninput="ImageModule.onParamChange()" />
 						<span class="param-value" id="paramSimplificationVal">0</span>
 					</div>
 				</div>
 				<div class="param-item">
-					<label>平滑 (smoothing)</label>
+					<label id="labelSmoothing"></label>
 					<div class="param-row">
 						<input type="range" id="paramSmoothing" min="0" max="1.33" step="0.01" value="0" oninput="ImageModule.onParamChange()" />
 						<span class="param-value" id="paramSmoothingVal">0</span>
 					</div>
 				</div>
 				<div class="param-item">
-					<label>去斑 (despeckling)</label>
+					<label id="labelDespeckling"></label>
 					<div class="param-row">
 						<input type="range" id="paramDespeckling" min="0" max="5" step="0.1" value="0" oninput="ImageModule.onParamChange()" />
 						<span class="param-value" id="paramDespecklingVal">0</span>
@@ -535,28 +535,35 @@
 				<div class="param-item">
 					<div class="param-toggle">
 						<input type="checkbox" id="paramWhiteBg" onchange="ImageModule.onParamChange()" />
-						<span>白色作为背景色</span>
+						<span id="labelWhiteBg"></span>
 					</div>
 				</div>
 				<div class="param-item">
 					<div class="param-toggle">
 						<input type="checkbox" id="paramInversion" onchange="ImageModule.onParamChange()" />
-						<span>反相</span>
+						<span id="labelInversion"></span>
 					</div>
 				</div>
 			</div>
 			<div class="param-preview">
 				<canvas id="paramPreviewCanvas"></canvas>
-				<div class="preview-loading" id="paramLoading" style="display: none;">正在生成预览...</div>
+				<div class="preview-loading" id="paramLoading" style="display: none;"></div>
 			</div>
 		</div>
 		<div class="param-dialog-footer">
-			<button class="cancel-btn" onclick="ImageModule.cancelParamDialog()">取消</button>
-			<button onclick="ImageModule.confirmParamDialog()">确认</button>
+			<button id="btnCancel" class="cancel-btn" onclick="ImageModule.cancelParamDialog()"></button>
+			<button id="btnConfirm" onclick="ImageModule.confirmParamDialog()"></button>
 		</div>
 	</div>
 </div>
 
+<script>
+var edaObj = (typeof eda !== 'undefined') ? eda : (window.parent && window.parent.eda);
+function t(tag, ...args) {
+	if (edaObj && edaObj.sys_I18n) return edaObj.sys_I18n.text(tag, undefined, undefined, ...args);
+	return tag;
+}
+</script>
 <script src="/iframe/js/state.js"></script>
 <script src="/iframe/js/geometry.js"></script>
 <script src="/iframe/js/canvas.js"></script>
@@ -566,6 +573,39 @@
 <script src="/iframe/js/ui.js"></script>
 <script src="/iframe/js/generator.js"></script>
 <script src="/iframe/js/main.js"></script>
+<script>
+// Apply i18n translations to HTML elements
+document.title = t('Title');
+document.getElementById('btnSelectImage').textContent = t('SelectImage');
+document.getElementById('labelSelectLayer').textContent = t('SelectLayer');
+
+var layerSelect = document.getElementById('layerSelect');
+var layerKeys = ['LayerDocument', 'LayerTop', 'LayerBottom', 'LayerBoardOutline', 'LayerTopSilkscreen', 'LayerBottomSilkscreen', 'LayerTopSolderMask', 'LayerBottomSolderMask', 'LayerMulti'];
+for (var i = 0; i < layerSelect.options.length; i++) {
+	layerSelect.options[i].textContent = t(layerKeys[i]);
+}
+
+document.getElementById('labelUnit').textContent = t('Unit');
+document.getElementById('labelImageWidth').textContent = t('ImageWidth');
+document.getElementById('globalLock').title = t('LockAspectRatio');
+document.getElementById('labelHeight').textContent = t('Height');
+document.getElementById('zoomInfo').textContent = t('ZoomLevel', 100);
+document.getElementById('selectedListTitle').textContent = t('SelectedContours');
+document.getElementById('btnSelectAll').textContent = t('SelectAllContours');
+document.getElementById('btnClearSelection').textContent = t('ClearSelection');
+document.getElementById('btnMergeSelected').textContent = t('MergeSelectedContours');
+document.getElementById('btnGenerate').textContent = t('GeneratePrimitives');
+document.getElementById('paramDialogTitle').textContent = t('ContourExtractionParams');
+document.getElementById('labelTolerance').textContent = t('ParamTolerance');
+document.getElementById('labelSimplification').textContent = t('ParamSimplification');
+document.getElementById('labelSmoothing').textContent = t('ParamSmoothing');
+document.getElementById('labelDespeckling').textContent = t('ParamDespeckling');
+document.getElementById('labelWhiteBg').textContent = t('WhiteAsBackground');
+document.getElementById('labelInversion').textContent = t('Inversion');
+document.getElementById('paramLoading').textContent = t('GeneratingPreview');
+document.getElementById('btnCancel').textContent = t('Cancel');
+document.getElementById('btnConfirm').textContent = t('Confirm');
+</script>
 
 </body>
 </html>

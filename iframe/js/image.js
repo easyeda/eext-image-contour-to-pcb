@@ -24,7 +24,7 @@ const ImageModule = {
 			const file = await eda.sys_FileSystem.openReadFileDialog(['png', 'jpg', 'jpeg', 'bmp', 'webp', 'svg'], false);
 
 			if (!file) {
-				eda.sys_Message.showToastMessage('未选择文件', 'warn');
+				eda.sys_Message.showToastMessage(t('NoFileSelected'), 'warn');
 				return;
 			}
 
@@ -33,7 +33,7 @@ const ImageModule = {
 			const supportedFormats = ['png', 'jpg', 'jpeg', 'bmp', 'webp', 'svg'];
 
 			if (!fileExtension || !supportedFormats.includes(fileExtension)) {
-				eda.sys_Message.showToastMessage('暂不支持该格式的图片，请选择PNG/JPG/JPEG/BMP/WEBP/SVG格式', 'error');
+				eda.sys_Message.showToastMessage(t('UnsupportedImageFormat'), 'error');
 				return;
 			}
 
@@ -56,7 +56,7 @@ const ImageModule = {
 			// 显示参数编辑对话框
 			this.showParamDialog();
 		} catch (err) {
-			eda.sys_Message.showToastMessage('选择文件失败: ' + err, 'error');
+			eda.sys_Message.showToastMessage(t('FileSelectFailed', err), 'error');
 		}
 	},
 
@@ -233,7 +233,7 @@ const ImageModule = {
 			ctx.font = '13px "Segoe UI", sans-serif';
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'middle';
-			ctx.fillText('未检测到轮廓', canvas.width / 2, canvas.height / 2);
+			ctx.fillText(t('NoContoursDetected'), canvas.width / 2, canvas.height / 2);
 			return;
 		}
 
@@ -324,7 +324,7 @@ const ImageModule = {
 		ctx.font = '11px "Segoe UI", sans-serif';
 		ctx.textAlign = 'left';
 		ctx.textBaseline = 'top';
-		ctx.fillText('轮廓数: ' + data.complexPolygon.length + '  缩放: ' + Math.round(this._previewZoom * 100) + '%', 8, 8);
+		ctx.fillText(t('ContourCountZoom', data.complexPolygon.length, Math.round(this._previewZoom * 100)), 8, 8);
 	},
 
 	/**
@@ -343,9 +343,9 @@ const ImageModule = {
 
 		try {
 			await this.loadAndConvertImage();
-			eda.sys_Message.showToastMessage('图片加载成功，点击轮廓进行选择', 'success');
+			eda.sys_Message.showToastMessage(t('ImageLoadedClickContour'), 'success');
 		} catch (err) {
-			eda.sys_Message.showToastMessage('加载失败: ' + err, 'error');
+			eda.sys_Message.showToastMessage(t('LoadFailed', err), 'error');
 		}
 	},
 

@@ -21,7 +21,7 @@ const CanvasModule = {
 		ctx.font = '14px "Segoe UI", sans-serif';
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
-		ctx.fillText('点击"选择图片"按钮开始', canvas.width / 2, canvas.height / 2);
+		ctx.fillText(t('ClickSelectImageToStart'), canvas.width / 2, canvas.height / 2);
 	},
 
 	/**

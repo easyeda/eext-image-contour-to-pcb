@@ -8,26 +8,26 @@ const GeneratorModule = {
 	 */
 	async generateFill() {
 		if (!AppState.polygonData) {
-			eda.sys_Message.showToastMessage('请先选择图片', 'warn');
+			eda.sys_Message.showToastMessage(t('SelectImageFirst'), 'warn');
 			return;
 		}
 
 		if (AppState.selectedPolygons.length === 0) {
-			eda.sys_Message.showToastMessage('请先选择要填充的轮廓', 'warn');
+			eda.sys_Message.showToastMessage(t('SelectContoursToFill'), 'warn');
 			return;
 		}
 
 		// 检查是否有板框层且线宽为0的情况
 		const boardOutlineWithFill = AppState.selectedPolygons.find(item => item.layer === 11 && item.lineWidth === 0);
 		if (boardOutlineWithFill) {
-			eda.sys_Message.showToastMessage('板框层不支持填充，请设置线宽大于0', 'error');
+			eda.sys_Message.showToastMessage(t('BoardOutlineNoFill'), 'error');
 			return;
 		}
 
 		// 检查是否有多层且线宽大于0的情况
 		const multiLayerWithLine = AppState.selectedPolygons.find(item => item.layer === 12 && item.lineWidth > 0);
 		if (multiLayerWithLine) {
-			eda.sys_Message.showToastMessage('多层不支持线条，请设置线宽为0', 'error');
+			eda.sys_Message.showToastMessage(t('MultiLayerNoLine'), 'error');
 			return;
 		}
 
@@ -116,7 +116,7 @@ const GeneratorModule = {
 						}
 						
 						if (!singlePolygonObj) {
-							eda.sys_Message.showToastMessage('无法创建轮廓：无法获取多边形对象', 'error');
+							eda.sys_Message.showToastMessage(t('CannotCreateContour'), 'error');
 							continue;
 						}
 						
@@ -153,21 +153,24 @@ const GeneratorModule = {
 			}
 			
 			if (primitives.length === 0) {
-				eda.sys_Message.showToastMessage('未能创建任何图元', 'error');
+				eda.sys_Message.showToastMessage(t('NoPrimitivesCreated'), 'error');
 				return;
 			}
 			
-			let message = '成功创建 ';
-			if (fillCount > 0) message += `${fillCount} 个填充`;
-			if (fillCount > 0 && outlineCount > 0) message += '和';
-			if (outlineCount > 0) message += `${outlineCount} 个轮廓`;
-			message += '图元，位于坐标原点处';
-			
+			let message;
+			if (fillCount > 0 && outlineCount > 0) {
+				message = t('CreatedFillAndOutline', fillCount, outlineCount);
+			} else if (fillCount > 0) {
+				message = t('CreatedFillOnly', fillCount);
+			} else {
+				message = t('CreatedOutlineOnly', outlineCount);
+			}
+
 			eda.sys_Message.showToastMessage(message, 'success');
 			
 			PolygonManager.clearSelection();
 		} catch (err) {
-			eda.sys_Message.showToastMessage('生成失败: ' + err, 'error');
+			eda.sys_Message.showToastMessage(t('GenerationFailed', err), 'error');
 		}
 	}
 };

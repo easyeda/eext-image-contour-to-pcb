@@ -1,3 +1,10 @@
 {
-	"About...": "About..."
+	"About...": "About...",
+	"图片轮廓提取器": "Image Contour Extractor",
+	"适用于艺术PCB的制作，方便提取图片中的外轮廓以及内轮廓用于板框、开窗、挖槽等": "Designed for artistic PCB production, easily extract outer and inner contours from images for board outlines, window openings, cutouts, etc.",
+	"打开提取器...": "Open Extractor...",
+	"contour": "contour",
+	"image": "image",
+	"pcb": "pcb",
+	"outline": "outline"
 }

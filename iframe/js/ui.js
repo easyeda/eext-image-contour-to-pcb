@@ -53,11 +53,11 @@ const UIModule = {
 		if (AppState.globalAspectRatioLocked) {
 			lockIcon.textContent = '🔒';
 			lockIcon.classList.remove('unlocked');
-			lockIcon.title = '点击解锁宽高比';
+			lockIcon.title = t('ClickToUnlockAspectRatio');
 		} else {
 			lockIcon.textContent = '🔓';
 			lockIcon.classList.add('unlocked');
-			lockIcon.title = '点击锁定宽高比';
+			lockIcon.title = t('ClickToLockAspectRatio');
 		}
 	},
 
