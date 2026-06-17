@@ -12,29 +12,30 @@ const PolygonManager = {
 
 		if (existingIndex >= 0) {
 			AppState.selectedPolygons.splice(existingIndex, 1);
-		} else {
+		}
+		else {
 			const bounds = GeometryUtils.calculatePolygonBounds(AppState.polygonData.complexPolygon[index]);
-			
+
 			const unitConversionFactor = AppState.currentUnit === 'mm' ? (1 / 39.3701) : 1;
 			const boundsWidth = bounds.width * unitConversionFactor;
 			const boundsHeight = bounds.height * unitConversionFactor;
-			
+
 			let scaleX = 1;
 			let scaleY = 1;
 			if (AppState.globalOriginalWidth > 0 && AppState.globalOriginalHeight > 0) {
 				scaleX = AppState.globalWidth / AppState.globalOriginalWidth;
 				scaleY = AppState.globalHeight / AppState.globalOriginalHeight;
 			}
-			
+
 			AppState.selectedPolygons.push({
-				index: index,
+				index,
 				layer: selectedLayer,
 				lineWidth: 0,
 				width: boundsWidth * scaleX,
 				height: boundsHeight * scaleY,
 				originalWidth: boundsWidth,
 				originalHeight: boundsHeight,
-				aspectRatioLocked: true
+				aspectRatioLocked: true,
 			});
 		}
 
@@ -49,7 +50,7 @@ const PolygonManager = {
 		const selectedList = document.getElementById('selectedList');
 		const selectedItems = document.getElementById('selectedItems');
 		const selectedCount = document.getElementById('selectedCount');
-		const mergeButton = document.getElementById('mergeButton');
+		const mergeButton = document.getElementById('btnMergeSelected');
 
 		if (AppState.selectedPolygons.length === 0) {
 			selectedList.style.display = 'none';
@@ -64,21 +65,23 @@ const PolygonManager = {
 		const layerSelect = document.getElementById('layerSelect');
 		const layerOptions = Array.from(layerSelect.options).map(opt => ({
 			value: opt.value,
-			text: opt.text
+			text: opt.text,
 		}));
 
 		selectedItems.innerHTML = AppState.selectedPolygons.map((item, idx) => {
-			const layerOptionsHtml = layerOptions.map(opt => 
-				`<option value="${opt.value}" ${opt.value == item.layer ? 'selected' : ''}>${opt.text}</option>`
+			const layerOptionsHtml = layerOptions.map(opt =>
+				`<option value="${opt.value}" ${opt.value == item.layer ? 'selected' : ''}>${opt.text}</option>`,
 			).join('');
 
 			const lockIcon = item.aspectRatioLocked ? '🔒' : '🔓';
 			const lockClass = item.aspectRatioLocked ? 'locked' : '';
+			const w = (item.width || 0).toFixed(3);
+			const h = (item.height || 0).toFixed(3);
 
 			return `
 				<div class="selected-item">
 					<div class="selected-item-header">
-						<span class="selected-item-info">${t('ContourNumber', item.index + 1)}${item.isMerged ? ' ' + t('Merged') : ''}</span>
+						<span class="selected-item-info">${t('ContourNumber', item.index + 1)}${item.isMerged ? ` ${t('Merged')}` : ''}</span>
 						<span class="selected-item-remove" onclick="PolygonManager.removeSelection(${idx})">×</span>
 					</div>
 					<div class="selected-item-controls">
@@ -87,9 +90,9 @@ const PolygonManager = {
 							${layerOptionsHtml}
 						</select>
 						<label>${t('LineWidthFillHint')}</label>
-						<input type="number" 
-							value="${item.lineWidth || 0}" 
-							min="0" 
+						<input type="number"
+							value="${item.lineWidth || 0}"
+							min="0"
 							step="0.1"
 							onchange="PolygonManager.updatePolygonLineWidth(${idx}, this.value)"
 							title="${t('LineWidthHint')}" />
@@ -97,19 +100,19 @@ const PolygonManager = {
 					</div>
 					<div class="selected-item-size">
 						<label>${t('Width')}</label>
-						<input type="number" 
-							value="${item.width.toFixed(3)}" 
-							min="0.001" 
+						<input type="number"
+							value="${w}"
+							min="0.001"
 							step="0.1"
 							onchange="PolygonManager.updatePolygonWidth(${idx}, this.value)" />
 						<span>${AppState.currentUnit}</span>
-						<span class="lock-icon ${lockClass}" 
+						<span class="lock-icon ${lockClass}"
 							onclick="PolygonManager.toggleAspectRatioLock(${idx})"
 							title="${item.aspectRatioLocked ? t('ClickToUnlockAspectRatio') : t('ClickToLockAspectRatio')}">${lockIcon}</span>
 						<label>${t('Height')}</label>
-						<input type="number" 
-							value="${item.height.toFixed(3)}" 
-							min="0.001" 
+						<input type="number"
+							value="${h}"
+							min="0.001"
 							step="0.1"
 							onchange="PolygonManager.updatePolygonHeight(${idx}, this.value)" />
 						<span>${AppState.currentUnit}</span>
@@ -144,19 +147,19 @@ const PolygonManager = {
 		if (idx >= 0 && idx < AppState.selectedPolygons.length) {
 			const item = AppState.selectedPolygons[idx];
 			const width = parseFloat(newWidth);
-			
+
 			if (width <= 0 || isNaN(width)) {
 				this.updateSelectedList();
 				return;
 			}
-			
+
 			item.width = width;
-			
+
 			if (item.aspectRatioLocked && item.originalWidth > 0) {
 				const aspectRatio = item.originalHeight / item.originalWidth;
 				item.height = width * aspectRatio;
 			}
-			
+
 			this.updateSelectedList();
 		}
 	},
@@ -168,19 +171,19 @@ const PolygonManager = {
 		if (idx >= 0 && idx < AppState.selectedPolygons.length) {
 			const item = AppState.selectedPolygons[idx];
 			const height = parseFloat(newHeight);
-			
+
 			if (height <= 0 || isNaN(height)) {
 				this.updateSelectedList();
 				return;
 			}
-			
+
 			item.height = height;
-			
+
 			if (item.aspectRatioLocked && item.originalHeight > 0) {
 				const aspectRatio = item.originalWidth / item.originalHeight;
 				item.width = height * aspectRatio;
 			}
-			
+
 			this.updateSelectedList();
 		}
 	},
@@ -215,7 +218,7 @@ const PolygonManager = {
 
 		const selectedLayer = parseInt(document.getElementById('layerSelect').value);
 		const unitConversionFactor = AppState.currentUnit === 'mm' ? (1 / 39.3701) : 1;
-		
+
 		let scaleX = 1;
 		let scaleY = 1;
 		if (AppState.globalOriginalWidth > 0 && AppState.globalOriginalHeight > 0) {
@@ -229,22 +232,22 @@ const PolygonManager = {
 			const bounds = GeometryUtils.calculatePolygonBounds(polygon);
 			const boundsWidth = bounds.width * unitConversionFactor;
 			const boundsHeight = bounds.height * unitConversionFactor;
-			
+
 			AppState.selectedPolygons.push({
-				index: index,
+				index,
 				layer: selectedLayer,
 				lineWidth: 0,
 				width: boundsWidth * scaleX,
 				height: boundsHeight * scaleY,
 				originalWidth: boundsWidth,
 				originalHeight: boundsHeight,
-				aspectRatioLocked: true
+				aspectRatioLocked: true,
 			});
 		});
 
 		CanvasModule.redrawCanvas();
 		this.updateSelectedList();
-		
+
 		eda.sys_Message.showToastMessage(t('SelectedAllContours', AppState.selectedPolygons.length), 'success');
 	},
 
@@ -268,8 +271,8 @@ const PolygonManager = {
 		}
 
 		try {
-			const polygonsToMerge = AppState.selectedPolygons.map(item => 
-				AppState.polygonData.complexPolygon[item.index]
+			const polygonsToMerge = AppState.selectedPolygons.map(item =>
+				AppState.polygonData.complexPolygon[item.index],
 			);
 
 			const mergedComplexPolygon = await eda.pcb_MathPolygon.createComplexPolygon(polygonsToMerge);
@@ -285,7 +288,7 @@ const PolygonManager = {
 				originalHeight: firstItem.originalHeight,
 				aspectRatioLocked: firstItem.aspectRatioLocked,
 				isMerged: true,
-				mergedPolygons: mergedComplexPolygon.complexPolygon || polygonsToMerge
+				mergedPolygons: mergedComplexPolygon.complexPolygon || polygonsToMerge,
 			};
 
 			AppState.selectedPolygons = [mergedItem];
@@ -294,10 +297,11 @@ const PolygonManager = {
 			this.updateSelectedList();
 
 			eda.sys_Message.showToastMessage(t('MergeSuccess', polygonsToMerge.length), 'success');
-		} catch (err) {
+		}
+		catch (err) {
 			eda.sys_Message.showToastMessage(t('MergeFailed', err), 'error');
 		}
-	}
+	},
 };
 
 window.PolygonManager = PolygonManager;
